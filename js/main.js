@@ -12,6 +12,7 @@ var Visualizer = function(){
     this.source;
     this.analyser;
     this.group;
+    this.numBoxes = 100;
 }
 
 Visualizer.prototype = {
@@ -67,12 +68,12 @@ Visualizer.prototype = {
 
         // Add Cubes
         this.group = new THREE.Group();
-        for ( var i = 0; i < 10; i++){
+        for ( var i = 0; i < this.numBoxes; i++){
             var mesh = new THREE.Mesh(
                 new THREE.BoxGeometry(10,10,10),
                 new THREE.MeshBasicMaterial()
                 );
-            mesh.position.x = (i*15) - 75;
+            mesh.position.x = (i*15) - ((this.numBoxes*10)/2);
 
             this.group.add(mesh);
         }
@@ -148,11 +149,11 @@ Visualizer.prototype = {
                 var timeArray = new Uint8Array(that.analyser.fftSize);
                 that.analyser.getByteFrequencyData(freqArray);
                 that.analyser.getByteTimeDomainData(timeArray);
-                var freqStep = Math.round(freqArray.length / 10);
-                var timeStep = Math.round(freqArray.length / 10);
+                var freqStep = Math.round(freqArray.length / that.numBoxes);
+                var timeStep = Math.round(freqArray.length / that.numBoxes);
 
 
-                for(var i=0; i < 10; i++){
+                for(var i=0; i < that.numBoxes; i++){
                     freqValue = freqArray[i*freqStep];
                     timeValue = timeArray[i*timeStep];
                     that.group.children[i].position.y = freqValue;
@@ -161,6 +162,11 @@ Visualizer.prototype = {
                             (timeValue - 120) / 10, 
                             (timeValue - 120) / 10);
                 }
+
+                if(camera.position.z <= 475){
+                    camera.position.z+= 0.3;
+                }
+
             }
             requestAnimationFrame(animate);
         }
