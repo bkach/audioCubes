@@ -31,7 +31,6 @@ Visualizer.prototype = {
 
         try {
             this.audioContext = new AudioContext();
-            console.log("Audio context created")
         }
         catch (e) {
             console.log("Audio context is not supported")
@@ -78,7 +77,6 @@ Visualizer.prototype = {
             this.group.add(mesh);
         }
         scene.add(this.group);
-        console.log(this.group);
 
         // Add Listeners
         window.addEventListener('resize', this._onWindowResize, false);
@@ -145,7 +143,6 @@ Visualizer.prototype = {
         var animate = function(){
             controls.update();
             renderer.render(scene,camera);
-            // console.log(that.analyser);
             if(that.analyser){
                 var freqArray = new Uint8Array(that.analyser.frequencyBinCount);
                 var timeArray = new Uint8Array(that.analyser.fftSize);
@@ -163,8 +160,6 @@ Visualizer.prototype = {
                         new THREE.Color((timeValue - 120) / 10, 
                             (timeValue - 120) / 10, 
                             (timeValue - 120) / 10);
-                    // that.group.children[i].position.z = timeValue/3;
-                    // console.log(timeValue);
                 }
             }
             requestAnimationFrame(animate);
