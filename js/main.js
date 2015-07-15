@@ -54,6 +54,7 @@ Visualizer.prototype = {
         camera = new THREE.PerspectiveCamera(45, 
             window.innerWidth / window.innerHeight, 1, 10000);
         camera.position.z = 100;
+        camera.position.y = 50;
         scene.add(camera);
 
         // Controls
